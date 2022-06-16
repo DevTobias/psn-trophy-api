@@ -6,9 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 
 import { AuthModule } from './features/psn/auth/auth.module';
+import { SearchModule } from './features/psn/search/search.module';
 import { TrophyModule } from './features/psn/trophy/trophy.module';
+import { UserModule } from './features/psn/user/user.module';
 
-const modules = [TrophyModule, AuthModule];
+const modules = [TrophyModule, AuthModule, SearchModule, UserModule];
 
 @Module({
   imports: [
