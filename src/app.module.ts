@@ -3,9 +3,10 @@ import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { DirectiveLocation, GraphQLDirective } from 'graphql';
-import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
-import { RecipesModule } from './recipes/recipes.module';
+import { AuthModule } from './features/psn/auth/auth.module';
+import { TrophyModule } from './features/psn/trophy/trophy.module';
+
+const modules = [TrophyModule, AuthModule];
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { RecipesModule } from './recipes/recipes.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    RecipesModule,
+    ...modules,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
@@ -29,16 +30,6 @@ import { RecipesModule } from './recipes/recipes.module';
       cors: {
         origin: 'https://studio.apollographql.com',
         credentials: true,
-      },
-      transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
-      installSubscriptionHandlers: true,
-      buildSchemaOptions: {
-        directives: [
-          new GraphQLDirective({
-            name: 'upper',
-            locations: [DirectiveLocation.FIELD_DEFINITION],
-          }),
-        ],
       },
     }),
   ],

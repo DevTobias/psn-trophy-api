@@ -2,37 +2,75 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-directive @upper on FIELD_DEFINITION
-
-"""recipe"""
-type Recipe {
-  id: ID!
-  description: String
-  ingredients: [String!]!
-  creationDate: Date!
-  updatedDate: Date!
-  title: String!
+type Auth {
+  access_token: String!
+  expires_in: Int!
+  refresh_token: String!
+  refresh_token_expires_in: Int!
 }
 
-"""Date custom scalar type"""
-scalar Date
+type TrophyCounts {
+  bronze: Int!
+  silver: Int!
+  gold: Int!
+  platinum: Int!
+}
+
+type TrophyGroup {
+  group_id: String!
+  group_name: String!
+  group_icon_url: String!
+  defined_trophies: TrophyCounts!
+}
+
+type TitleGroups {
+  title_id: String!
+  title_name: String!
+  title_icon_url: String!
+  title_platform: String!
+  defined_trophies: TrophyCounts!
+  trophy_groups: [TrophyGroup!]!
+}
+
+type Trophy {
+  trophy_hidden: Boolean!
+  trophy_type: String!
+  trophy_name: String!
+  trophy_detail: String!
+  trophy_icon_url: String!
+  trophy_group_id: String!
+}
+
+type TitleTrophies {
+  title_id: String!
+  has_trophy_groups: Boolean!
+  total_item_count: Int!
+  trophies: [Trophy!]!
+}
+
+type GroupedTrophies {
+  group_id: String!
+  group_name: String!
+  group_icon_url: String!
+  group_trophy_count: Int!
+  defined_trophies: TrophyCounts!
+  trophies: [Trophy!]!
+}
+
+type Title {
+  title_id: String!
+  title_name: String!
+  title_icon_url: String!
+  title_platform: String!
+  total_trophy_count: Int!
+  total_group_count: Int!
+  defined_trophies: TrophyCounts!
+  grouped_trophies: [GroupedTrophies!]!
+}
 
 type Query {
-  recipe(id: String!): Recipe!
-  recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
-}
-
-type Mutation {
-  addRecipe(newRecipeData: NewRecipeInput!): Recipe!
-  removeRecipe(id: String!): Boolean!
-}
-
-input NewRecipeInput {
-  title: String!
-  description: String
-  ingredients: [String!]!
-}
-
-type Subscription {
-  recipeAdded: Recipe!
+  title_trophies(id: String!, groupId: String!, service: String!): TitleTrophies!
+  title_groups(id: String!, service: String!): TitleGroups!
+  title(id: String!, service: String!): Title!
+  access_token(npsso: String!): Auth!
 }
