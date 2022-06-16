@@ -19,6 +19,7 @@ export class AuthProvider {
   private async _init() {
     this.npsso = this.configService.get<string>('NPSSO');
     this.auth = await this.authService.getAccessToken(this.npsso);
+    console.log('---- SUCCESSFULLY INITIALIZED AUTH PROVIDER ----');
   }
 
   async refresh() {

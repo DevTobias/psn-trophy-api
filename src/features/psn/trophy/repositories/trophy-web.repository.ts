@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
+import { get } from '../../../../utils/fetch';
 import { AuthProvider } from '../../auth/auth.provider';
 import { TitleGroups } from '../models/query/title-groups.model';
 import { TitleTrophies } from '../models/query/title-trophies.model';
-import { get } from '../utils/fetch';
 import { autoRefresh } from 'src/utils/autoRefresh';
 
 const TROPHY_BASE_URL = 'https://m.np.playstation.net/api/trophy/v1';

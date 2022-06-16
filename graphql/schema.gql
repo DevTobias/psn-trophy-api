@@ -9,6 +9,24 @@ type Auth {
   refresh_token_expires_in: Int!
 }
 
+type SearchResult {
+  score: Float!
+  account_id: String!
+  country: String!
+  language: String!
+  online_id: String!
+  first_name: String!
+  last_name: String!
+  is_ps_plus: Boolean!
+  is_verified: Boolean!
+  avatar_url: String!
+}
+
+type Search {
+  total_result_count: Int!
+  results: [SearchResult!]!
+}
+
 type TrophyCounts {
   bronze: Int!
   silver: Int!
@@ -73,4 +91,5 @@ type Query {
   title_groups(id: String!, service: String!): TitleGroups!
   title(id: String!, service: String!): Title!
   access_token(npsso: String!): Auth!
+  search(searchTerm: String!): Search!
 }
