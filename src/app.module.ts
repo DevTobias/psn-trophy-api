@@ -1,8 +1,10 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CacheModule, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+
 import { AuthModule } from './features/psn/auth/auth.module';
 import { TrophyModule } from './features/psn/trophy/trophy.module';
 
@@ -10,6 +12,7 @@ const modules = [TrophyModule, AuthModule];
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     CacheModule.register(),
     TypeOrmModule.forRoot({
       type: 'postgres',

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import fetch from 'cross-fetch';
+
 import { Auth } from './models/auth.model';
 
 @Injectable()
@@ -42,6 +43,37 @@ export class AuthService {
       code: accessCode,
       redirect_uri: 'com.playstation.PlayStationApp://redirect',
       grant_type: 'authorization_code',
+      token_format: 'jwt',
+    }).toString();
+
+    const url = 'https://ca.account.sony.com/api/authz/v3/oauth/token';
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        authorization:
+          'Basic YWM4ZDE2MWEtZDk2Ni00NzI4LWIwZWEtZmZlYzIyZjY5ZWRjOkRFaXhFcVhYQ2RYZHdqMHY=',
+      },
+    });
+
+    if (!res.ok)
+      return {
+        access_token: '',
+        expires_in: -1,
+        refresh_token: '',
+        refresh_token_expires_in: -1,
+      };
+
+    return new Auth(await res.json());
+  }
+
+  async refreshAccessToken(refreshToken: string): Promise<Auth> {
+    const body = new URLSearchParams({
+      refresh_token: refreshToken,
+      scope: 'psn:mobile.v1 psn:clientapp',
+      grant_type: 'refresh_token',
       token_format: 'jwt',
     }).toString();
 
