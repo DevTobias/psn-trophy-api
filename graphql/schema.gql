@@ -86,10 +86,104 @@ type Title {
   grouped_trophies: [GroupedTrophies!]!
 }
 
+type UserTitle {
+  service: String!
+  title_id: String!
+  title_name: String!
+  title_icon_url: String!
+  platform: String!
+  has_trophy_groups: Boolean!
+  progress: Int!
+  last_updated: String!
+  defined_trophies: TrophyCounts!
+  earned_trophies: TrophyCounts!
+}
+
+type UserTitles {
+  total_item_count: Int!
+  user_titles: [UserTitle!]!
+}
+
+type EarnedTitleGroup {
+  group_id: String!
+  progress: Int!
+  earned_trophies: TrophyCounts!
+  last_updated: String!
+}
+
+type EarnedTitleTrophy {
+  trophy_id: Int!
+  trophy_hidden: Boolean!
+  earned: Boolean!
+  type: String!
+  rarity: Int!
+  earned_rate: Float!
+  earned_date: String!
+}
+
+type EarnedTrophy {
+  trophy_hidden: Boolean!
+  trophy_type: String!
+  trophy_name: String!
+  trophy_detail: String!
+  trophy_icon_url: String!
+  trophy_group_id: String!
+  earned: Boolean!
+  earned_date: String!
+  rarity: Int!
+  earned_rate: Float!
+}
+
+type GroupedEarnedTrophies {
+  group_id: String!
+  group_name: String!
+  group_icon_url: String!
+  group_trophy_count: Int!
+  defined_trophies: TrophyCounts!
+  earned_trophies: TrophyCounts!
+  progress: Int!
+  last_updated: String!
+  trophies: [EarnedTrophy!]!
+}
+
+type EarnedTitle {
+  title_id: String!
+  title_name: String!
+  title_icon_url: String!
+  title_platform: String!
+  total_trophy_count: Int!
+  total_group_count: Int!
+  defined_trophies: TrophyCounts!
+  earned_trophies: TrophyCounts!
+  grouped_trophies: [GroupedEarnedTrophies!]!
+}
+
+type Avatar {
+  size: String!
+  url: String!
+}
+
+type UserProfile {
+  online_id: String!
+  account_id: String!
+  about_me: String!
+  is_ps_plus: Boolean!
+  is_verified: Boolean!
+  trophy_level: Int!
+  progress: Int!
+  tier: Int!
+  earned_trophies: TrophyCounts!
+  languages: [String!]!
+  avatars: [Avatar!]!
+}
+
 type Query {
   title_trophies(id: String!, groupId: String!, service: String!): TitleTrophies!
   title_groups(id: String!, service: String!): TitleGroups!
   title(id: String!, service: String!): Title!
   access_token(npsso: String!): Auth!
   search(searchTerm: String!): Search!
+  user_profile(accountId: String!): UserProfile!
+  user_titles(accountId: String!): UserTitles!
+  earned_title(accountId: String!, trophyId: String!, service: String!): EarnedTitle!
 }

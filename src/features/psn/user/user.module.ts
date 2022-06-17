@@ -1,12 +1,13 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 
 import { AuthModule } from '../auth/auth.module';
-import { UserWebRepository } from './repositories/search-web.repository';
+import { TrophyModule } from '../trophy/trophy.module';
+import { UserWebRepository } from './repositories/user-web.repository';
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 
 @Module({
   providers: [UserResolver, UserService, UserWebRepository],
-  imports: [AuthModule],
+  imports: [AuthModule, TrophyModule, CacheModule.register()],
 })
 export class UserModule {}

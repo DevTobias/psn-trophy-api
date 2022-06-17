@@ -13,6 +13,7 @@ import { TrophyService } from './trophy.service';
 
 @Module({
   providers: [TrophyResolver, TrophyService, TrophyWebRepository],
+  exports: [TrophyService],
   imports: [
     AuthModule,
     TypeOrmModule.forFeature([
